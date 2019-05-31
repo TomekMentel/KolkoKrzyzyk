@@ -26,15 +26,13 @@ public class KolkoAndKrzyzyk extends Application {
     Image imgxsmall = new Image("xSmall.bmp");
     Image imgNoWinners = new Image("NoWinner.jpg");
 
-    TextField scoreX;
-    TextField scoreO;
+    private TextField scoreX;
+    private TextField scoreO;
 
     boolean turnO = true;
 
-    Rectangle field1, field2, field3, field4, field5, field6, field7, field8, field9;
-
-    static int counterX;
-    static int counterO;
+    private int counterX;
+    private int counterO;
     private Field field;
     private int movCounter;
 
@@ -47,9 +45,8 @@ public class KolkoAndKrzyzyk extends Application {
                 (compareFieldValues(2, 5, rectangleFields)) && (compareFieldValues(5, 8, rectangleFields)) && (rectangleFields.get(2).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(3, 6, rectangleFields)) && (compareFieldValues(6, 9, rectangleFields)) && (rectangleFields.get(3).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(1, 5, rectangleFields)) && (compareFieldValues(5, 9, rectangleFields)) && (rectangleFields.get(1).getValue() != FieldValue.EMPTY) ||
-                (compareFieldValues(3, 5, rectangleFields)) && (compareFieldValues(5, 7, rectangleFields)) && (rectangleFields.get(3).getValue() != FieldValue.EMPTY)) {
-
-            if (turnO == true) {
+                (compareFieldValues(3, 5, rectangleFields)) && (compareFieldValues(5, 7, rectangleFields)) && (rectangleFields.get(3).getValue() != FieldValue.EMPTY))
+            if (turnO) {
                 counterX++;
                 createAlert(imgX);
                 // restartGame(field1, field2, field3, field4, field5, field6, field7, field8, field9, rectangleFields);
@@ -58,14 +55,13 @@ public class KolkoAndKrzyzyk extends Application {
                 createAlert(imgO);
                 //restartGame(field1, field2, field3, field4, field5, field6, field7, field8, field9, rectangleFields);
             }
-        }
     }
 
-    public boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
+    private boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
         return rectangleFields.get(index1).getValue() == rectangleFields.get(index2).getValue();
     }
 
-    public void computerTurn(Map<Integer, Field> rectangleFields) {
+    private void computerTurn(Map<Integer, Field> rectangleFields) {
         /*Map<Integer, Field> result = rectangleFields.entrySet()
                 .stream()
                 .filter(map -> FieldValue.EMPTY.equals(map.getValue()))
@@ -83,14 +79,14 @@ public class KolkoAndKrzyzyk extends Application {
         alert.show();
     }
 
-    public void radioButons(List<RadioButton> rbList) {
+    private void radioButons(List<RadioButton> rbList) {
         ToggleGroup tg = new ToggleGroup();
         for (RadioButton rb : rbList) {
             rb.setToggleGroup(tg);
         }
     }
 
-    public void noWinner() {
+    private void noWinner() {
 
         if (movCounter == 9) {
             createAlert(imgNoWinners);
@@ -109,7 +105,7 @@ public class KolkoAndKrzyzyk extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Group root = new Group();
-        Scene scene = new Scene(root, 720, 300);
+        Scene scene = new Scene(root, 709, 288);
 
         ImageView imgView = new ImageView(background);
         Rectangle field1 = new Rectangle(1, 1, 100, 100);
@@ -186,9 +182,8 @@ public class KolkoAndKrzyzyk extends Application {
         fieldScoreO.setFill(new ImagePattern(imgOsmall));
         fieldScoreX.setFill(new ImagePattern(imgxsmall));
 
-        btNewGame.setOnAction(event -> {
-            restartGame(field1, field2, field3, field4, field5, field6, field7, field8, field9, rectangleFields);
-        });
+        btNewGame.setOnAction(event -> restartGame(field1, field2, field3, field4,
+                field5, field6, field7, field8, field9, rectangleFields));
 
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
@@ -200,18 +195,19 @@ public class KolkoAndKrzyzyk extends Application {
         primaryStage.setTitle("Kolko I Krzyzyk");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
         addMouseReleased(fieldWho, rectangleFields);
     }
 
-    public void restartGame(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5,
-                            Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Map<Integer, Field> rectangleFields) {
+    private void restartGame(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5,
+                             Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Map<Integer, Field> rectangleFields) {
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
         rectangleFields.forEach((key, value) -> value.setValue(FieldValue.EMPTY));
 
         movCounter = 0;
     }
 
-    public void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
+    private void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
 
         addMouseReleased(1, fieldWho, rectangleFields);
         addMouseReleased(2, fieldWho, rectangleFields);
@@ -224,9 +220,9 @@ public class KolkoAndKrzyzyk extends Application {
         addMouseReleased(9, fieldWho, rectangleFields);
     }
 
-    public void emptyField(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
-                           Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8,
-                           Rectangle field9) {
+    private void emptyField(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
+                            Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8,
+                            Rectangle field9) {
 
         field1.setFill(new ImagePattern(imgEmpty));
         field2.setFill(new ImagePattern(imgEmpty));
@@ -245,7 +241,7 @@ public class KolkoAndKrzyzyk extends Application {
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
             if (field.getValue() == FieldValue.EMPTY) {
-                if (turnO == true) {
+                if (turnO) {
                     field.getRectangle().setFill(new ImagePattern(imgO));
                     field.setValue(FieldValue.CIRCLE);
 
