@@ -1,4 +1,3 @@
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Objects;
@@ -47,6 +46,5 @@ public class Field {
     public int hashCode() {
         return Objects.hash(value, rectangle);
     }
-
 
 }
