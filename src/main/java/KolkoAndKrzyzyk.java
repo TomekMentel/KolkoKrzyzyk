@@ -11,10 +11,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class KolkoAndKrzyzyk extends Application {
 
@@ -35,6 +32,7 @@ public class KolkoAndKrzyzyk extends Application {
 
     Label scoreX = new Label();
     Label scoreO = new Label();
+    private boolean playerClicked = false;
 
     public void check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
                       Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
@@ -219,9 +217,17 @@ public class KolkoAndKrzyzyk extends Application {
 
         RadioButton selectP = new RadioButton();
         selectP.relocate(550, 17);
+        selectP.setOnAction(event -> {
+
+            playerClicked = true;
+        });
 
         RadioButton selectC = new RadioButton();
         selectC.relocate(550, 95);
+        selectC.setOnAction(event -> {
+
+            playerClicked = false;
+        });
 
         List<RadioButton> rbList = new ArrayList<RadioButton>();
         rbList.add(selectC);
@@ -308,7 +314,9 @@ public class KolkoAndKrzyzyk extends Application {
 
                 check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
                 noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1);
-                computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
+                if (playerClicked == false) {
+                    computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
+                }
             }
         });
     }
