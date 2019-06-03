@@ -11,9 +11,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.*;
-
-import static java.lang.Thread.sleep;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KolkoAndKrzyzyk extends Application {
 
@@ -31,10 +32,9 @@ public class KolkoAndKrzyzyk extends Application {
     private int counterO;
     private Field field;
     private int movCounter;
-    private Rectangle fieldWho;
+
     Label scoreX = new Label();
     Label scoreO = new Label();
-
 
     public void check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
                       Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
@@ -53,21 +53,10 @@ public class KolkoAndKrzyzyk extends Application {
                 score();
                 createAlert(imgX);
 
-                try {
-                    sleep(600);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             } else {
                 counterO++;
                 createAlert(imgO);
                 score();
-
-                try {
-                    sleep(600);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
             restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
@@ -78,22 +67,23 @@ public class KolkoAndKrzyzyk extends Application {
         return rectangleFields.get(index1).getValue() == rectangleFields.get(index2).getValue();
     }
 
-    /*  private void newGameTurn(Map<Integer, Field> rectangleFields) {
-          Map.Entry<Integer, Field> result = rectangleFields.entrySet()
-                  .stream()
-                  .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
-                  .findFirst().get();
-          if (turnO==false) {
-              result.getValue().setValue(FieldValue.CROSS);
-              field = rectangleFields.put(result.getKey(), result.getValue());
+    private void newGameTurn(Map<Integer, Field> rectangleFields) {
+        Map.Entry<Integer, Field> result = rectangleFields.entrySet()
+                .stream()
+                .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
+                .findFirst().get();
+        if (turnO == false) {
+            result.getValue().setValue(FieldValue.CROSS);
+            field = rectangleFields.put(result.getKey(), result.getValue());
 
-              field.getRectangle().setFill(new ImagePattern(imgX));
+            field.getRectangle().setFill(new ImagePattern(imgX));
 
-              movCounter++;
-              turnO = true;
-          }}
-  */
-    private void computerTurn(Map<Integer, Field> rectangleFields) {
+            movCounter++;
+            turnO = true;
+        }
+    }
+
+    private void computerTurn(Map<Integer, Field> rectangleFields, Rectangle fieldWho, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
         Map.Entry<Integer, Field> result = rectangleFields.entrySet()
                 .stream()
                 .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
@@ -114,10 +104,10 @@ public class KolkoAndKrzyzyk extends Application {
             movCounter++;
             turnO = true;
 
-            // fieldWho.setFill(new ImagePattern(imgOsmall));
+            fieldWho.setFill(new ImagePattern(imgOsmall));
         }
-        // check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldWo, fieldId)
-        // check(rectangleFields);
+        check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
+        noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1);
     }
 
     private void createAlert(Image img) {
@@ -156,10 +146,6 @@ public class KolkoAndKrzyzyk extends Application {
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
         rectangleFields.forEach((key, value) -> value.setValue(FieldValue.EMPTY));
         movCounter = 0;
-    }
-
-    private void desaAtiv(Map<Integer, Field> rectangleFields) {
-        Set<Map.Entry<Integer, Field>> result = rectangleFields.entrySet();
     }
 
     public static void main(String[] args) {
@@ -251,7 +237,7 @@ public class KolkoAndKrzyzyk extends Application {
             restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
 
-            // newGameTurn(rectangleFields);
+            newGameTurn(rectangleFields);
         });
 
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
@@ -297,7 +283,8 @@ public class KolkoAndKrzyzyk extends Application {
 
     }
 
-    private void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9) {
+    private void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields, Rectangle field1,
+                                  Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9) {
 
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
@@ -317,14 +304,12 @@ public class KolkoAndKrzyzyk extends Application {
                     movCounter++;
                     turnO = true;
                     fieldWho.setFill(new ImagePattern(imgOsmall));
-
                 }
-
 
                 check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
                 noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1);
+                computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
             }
-
         });
     }
 }
