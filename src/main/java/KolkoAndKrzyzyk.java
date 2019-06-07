@@ -11,7 +11,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KolkoAndKrzyzyk extends Application {
 
@@ -34,8 +40,8 @@ public class KolkoAndKrzyzyk extends Application {
     Label scoreO = new Label();
     private boolean playerClicked = false;
 
-    public void check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
-                      Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
+    public boolean check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
+                         Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
 
         if ((compareFieldValues(1, 2, rectangleFields)) && (compareFieldValues(2, 3, rectangleFields)) && (rectangleFields.get(1).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(4, 5, rectangleFields)) && (compareFieldValues(5, 6, rectangleFields)) && (rectangleFields.get(4).getValue() != FieldValue.EMPTY) ||
@@ -45,8 +51,8 @@ public class KolkoAndKrzyzyk extends Application {
                 (compareFieldValues(3, 6, rectangleFields)) && (compareFieldValues(6, 9, rectangleFields)) && (rectangleFields.get(3).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(1, 5, rectangleFields)) && (compareFieldValues(5, 9, rectangleFields)) && (rectangleFields.get(1).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(3, 5, rectangleFields)) && (compareFieldValues(5, 7, rectangleFields)) && (rectangleFields.get(3).getValue() != FieldValue.EMPTY)) {
-            if (turnO) {
 
+            if (turnO) {
                 counterX++;
                 score();
                 createAlert(imgX);
@@ -56,9 +62,10 @@ public class KolkoAndKrzyzyk extends Application {
                 createAlert(imgO);
                 score();
             }
-            restartGame(field1, field2, field3, field4,
-                    field5, field6, field7, field8, field9, rectangleFields);
+
         }
+
+        return false;
     }
 
     private boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
@@ -69,11 +76,11 @@ public class KolkoAndKrzyzyk extends Application {
         Map.Entry<Integer, Field> result = rectangleFields.entrySet()
                 .stream()
                 .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
-                .findFirst().get();
-        if (turnO == false) {
-            result.getValue().setValue(FieldValue.CROSS);
-            field = rectangleFields.put(result.getKey(), result.getValue());
+                .findAny().get();
 
+        if (turnO == false) {
+            field = rectangleFields.put(result.getKey(), result.getValue());
+            result.getValue().setValue(FieldValue.CROSS);
             field.getRectangle().setFill(new ImagePattern(imgX));
 
             movCounter++;
@@ -81,31 +88,49 @@ public class KolkoAndKrzyzyk extends Application {
         }
     }
 
+    void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
+
+        try (FileWriter bw = new FileWriter("users.txt", true)) {
+            BufferedWriter out = new BufferedWriter(bw);
+
+            bw.write(tfUsername1.getText() + " VS " + tfUsername2.getText() + scoreO.getText() + scoreX.getText());
+            bw.write("\r\n");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void computerTurn(Map<Integer, Field> rectangleFields, Rectangle fieldWho, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
         Map.Entry<Integer, Field> result = rectangleFields.entrySet()
                 .stream()
                 .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
-                .findFirst().get();
+                .findAny().get();
         if (turnO) {
-            result.getValue().setValue(FieldValue.CIRCLE);
             field = rectangleFields.put(result.getKey(), result.getValue());
             field.getRectangle().setFill(new ImagePattern(imgO));
+            result.getValue().setValue(FieldValue.CIRCLE);
+
             movCounter++;
             turnO = false;
             fieldWho.setFill(new ImagePattern(imgxsmall));
 
         } else {
-            result.getValue().setValue(FieldValue.CROSS);
             field = rectangleFields.put(result.getKey(), result.getValue());
             field.getRectangle().setFill(new ImagePattern(imgX));
+            result.getValue().setValue(FieldValue.CROSS);
 
             movCounter++;
             turnO = true;
 
             fieldWho.setFill(new ImagePattern(imgOsmall));
         }
-        check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
-        noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1);
+        if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId)) {
+            return;
+        }
+        if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1)) {
+            return;
+        }
     }
 
     private void createAlert(Image img) {
@@ -123,15 +148,17 @@ public class KolkoAndKrzyzyk extends Application {
         }
     }
 
-    private void noWinner(Rectangle field5, Rectangle field6, Rectangle field7,
-                          Rectangle field8, Rectangle field9, Map<Integer, Field> rectangleFields,
-                          Rectangle field4, Rectangle field3, Rectangle field2, Rectangle field1) {
+    private boolean noWinner(Rectangle field5, Rectangle field6, Rectangle field7,
+                             Rectangle field8, Rectangle field9, Map<Integer, Field> rectangleFields,
+                             Rectangle field4, Rectangle field3, Rectangle field2, Rectangle field1) {
 
         if (movCounter == 9) {
             createAlert(imgNoWinners);
             restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
         }
+
+        return false;
     }
 
     private void score() {
@@ -181,17 +208,21 @@ public class KolkoAndKrzyzyk extends Application {
         rectangleFields.put(8, new Field(field8));
         rectangleFields.put(9, new Field(field9));
 
-        MenuButton difficulty = new MenuButton();
-        difficulty.relocate(600, 220);
+        Button btSave = new Button("SAVE");
+        btSave.relocate(682, 170);
+        btSave.setStyle("-fx-background-color: #207bdc");
+
+        Button btScore = new Button("SCORE");
+        btScore.relocate(675, 200);
+        btScore.setStyle("-fx-background-color: #207bdc");
 
         Button btNewGame = new Button("NEW GAME");
-        btNewGame.relocate(600, 200);
+        btNewGame.relocate(602, 275);
         btNewGame.setStyle("-fx-background-color: #2c64dc");
 
-        Button exitButton = new Button("EXIT");
-        exitButton.relocate(682, 275);
-        exitButton.setStyle("-fx-background-color: #dc3b44");
-        exitButton.setOnAction(actionEvent -> Platform.exit());
+        Button btExit = new Button("EXIT");
+        btExit.relocate(682, 275);
+        btExit.setStyle("-fx-background-color: #dc3b44");
 
         //Label
         scoreO.relocate(420, 130);
@@ -211,21 +242,19 @@ public class KolkoAndKrzyzyk extends Application {
         tfPlayer1.setPrefColumnCount(8);
 
         TextField tfPlayer2 = new TextField();
-        tfPlayer2.setText("Enter your name");
+        tfPlayer2.setText("Computer");
         tfPlayer2.relocate(590, 50);
         tfPlayer2.setPrefColumnCount(8);
 
         RadioButton selectP = new RadioButton();
         selectP.relocate(550, 17);
         selectP.setOnAction(event -> {
-
             playerClicked = true;
         });
 
         RadioButton selectC = new RadioButton();
         selectC.relocate(550, 95);
         selectC.setOnAction(event -> {
-
             playerClicked = false;
         });
 
@@ -238,18 +267,39 @@ public class KolkoAndKrzyzyk extends Application {
         fieldScoreO.setFill(new ImagePattern(imgOsmall));
         fieldScoreX.setFill(new ImagePattern(imgxsmall));
 
-        btNewGame.setOnAction(event -> {
+        btExit.setOnAction(actionEvent -> Platform.exit());
 
+        btScore.setOnAction(event -> {
+
+        });
+
+        btSave.setOnAction(event -> {
+            try {
+                writeScore(tfPlayer1, tfPlayer2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        btNewGame.setOnAction(event -> {
             restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
 
             newGameTurn(rectangleFields);
+
+            try {
+                writeScore(tfPlayer1, tfPlayer2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         });
 
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
         root.getChildren().add(imgView);
-        root.getChildren().addAll(scoreO, scoreX, btNewGame, exitButton, tfPlayer1, tfPlayer2, selectP, selectC);
+        root.getChildren().addAll(scoreO, scoreX, btNewGame, btExit, btSave, btScore, tfPlayer1, tfPlayer2, selectP, selectC);
         root.getChildren().addAll(fieldWho, fieldScoreO, fieldScoreX);
         root.getChildren().addAll(field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
@@ -310,13 +360,20 @@ public class KolkoAndKrzyzyk extends Application {
                     movCounter++;
                     turnO = true;
                     fieldWho.setFill(new ImagePattern(imgOsmall));
+
+                    if (playerClicked == false) {
+                        computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
+                    }
+                    if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId)) {
+
+                        return;
+                    }
+
+                    if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1));
+
+                    return;
                 }
 
-                check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
-                noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1);
-                if (playerClicked == false) {
-                    computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
-                }
             }
         });
     }
