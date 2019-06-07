@@ -14,10 +14,8 @@ import javafx.stage.Stage;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class KolkoAndKrzyzyk extends Application {
 
@@ -39,6 +37,8 @@ public class KolkoAndKrzyzyk extends Application {
     Label scoreX = new Label();
     Label scoreO = new Label();
     private boolean playerClicked = false;
+    Random random = new Random();
+    boolean gameOver=false;
 
     public boolean check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
                          Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId, Rectangle fieldWho) {
@@ -56,14 +56,17 @@ public class KolkoAndKrzyzyk extends Application {
                 counterX++;
                 score();
                 createAlert(imgX);
-                playerClicked=true;
+                playerClicked = true;
+
 
             } else {
                 counterO++;
                 createAlert(imgO);
                 score();
-                playerClicked=true;
+                playerClicked = true;
+
             }
+            gameOver=true;
         }
         return false;
     }
@@ -92,7 +95,6 @@ public class KolkoAndKrzyzyk extends Application {
 
         try (FileWriter bw = new FileWriter("users.txt", true)) {
             BufferedWriter out = new BufferedWriter(bw);
-
             bw.write(tfUsername1.getText() + " VS " + tfUsername2.getText() + scoreO.getText() + scoreX.getText());
             bw.write("\r\n");
             out.close();
@@ -102,10 +104,13 @@ public class KolkoAndKrzyzyk extends Application {
     }
 
     private void computerTurn(Map<Integer, Field> rectangleFields, Rectangle fieldWho, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
-        Map.Entry<Integer, Field> result = rectangleFields.entrySet()
+        List<Map.Entry<Integer, Field>> possibleFields = rectangleFields.entrySet()
                 .stream()
                 .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
-                .findAny().get();
+                .collect(Collectors.toList());
+        int index = random.nextInt(possibleFields.size());
+        Map.Entry<Integer, Field> result = possibleFields.get(index);
+
         if (turnO) {
             field = rectangleFields.put(result.getKey(), result.getValue());
             field.getRectangle().setFill(new ImagePattern(imgO));
@@ -155,6 +160,7 @@ public class KolkoAndKrzyzyk extends Application {
 
         if (movCounter == 9) {
             createAlert(imgNoWinners);
+            gameOver=true;
         }
         return false;
     }
@@ -169,7 +175,8 @@ public class KolkoAndKrzyzyk extends Application {
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
         rectangleFields.forEach((key, value) -> value.setValue(FieldValue.EMPTY));
         movCounter = 0;
-        playerClicked=false;
+        playerClicked = false;
+        gameOver=false;
     }
 
     public static void main(String[] args) {
@@ -278,7 +285,6 @@ public class KolkoAndKrzyzyk extends Application {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         });
 
         btNewGame.setOnAction(event -> {
@@ -337,7 +343,8 @@ public class KolkoAndKrzyzyk extends Application {
 
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
-            if (field.getValue() == FieldValue.EMPTY) {
+            if (field.getValue() == FieldValue.EMPTY && !gameOver) {
+
 
                 if (turnO) {
                     field.getRectangle().setFill(new ImagePattern(imgO));
