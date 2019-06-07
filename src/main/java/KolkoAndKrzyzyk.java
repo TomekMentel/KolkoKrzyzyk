@@ -41,7 +41,7 @@ public class KolkoAndKrzyzyk extends Application {
     private boolean playerClicked = false;
 
     public boolean check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
-                         Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId) {
+                         Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId, Rectangle fieldWho) {
 
         if ((compareFieldValues(1, 2, rectangleFields)) && (compareFieldValues(2, 3, rectangleFields)) && (rectangleFields.get(1).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(4, 5, rectangleFields)) && (compareFieldValues(5, 6, rectangleFields)) && (rectangleFields.get(4).getValue() != FieldValue.EMPTY) ||
@@ -56,15 +56,15 @@ public class KolkoAndKrzyzyk extends Application {
                 counterX++;
                 score();
                 createAlert(imgX);
+                playerClicked=true;
 
             } else {
                 counterO++;
                 createAlert(imgO);
                 score();
+                playerClicked=true;
             }
-
         }
-
         return false;
     }
 
@@ -125,11 +125,12 @@ public class KolkoAndKrzyzyk extends Application {
 
             fieldWho.setFill(new ImagePattern(imgOsmall));
         }
-        if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId)) {
+        if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId, fieldWho)) {
             return;
         }
         if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1)) {
             return;
+
         }
     }
 
@@ -154,10 +155,7 @@ public class KolkoAndKrzyzyk extends Application {
 
         if (movCounter == 9) {
             createAlert(imgNoWinners);
-            restartGame(field1, field2, field3, field4,
-                    field5, field6, field7, field8, field9, rectangleFields);
         }
-
         return false;
     }
 
@@ -171,6 +169,7 @@ public class KolkoAndKrzyzyk extends Application {
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
         rectangleFields.forEach((key, value) -> value.setValue(FieldValue.EMPTY));
         movCounter = 0;
+        playerClicked=false;
     }
 
     public static void main(String[] args) {
@@ -288,12 +287,6 @@ public class KolkoAndKrzyzyk extends Application {
 
             newGameTurn(rectangleFields);
 
-            try {
-                writeScore(tfPlayer1, tfPlayer2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         });
 
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
@@ -345,6 +338,7 @@ public class KolkoAndKrzyzyk extends Application {
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
             if (field.getValue() == FieldValue.EMPTY) {
+
                 if (turnO) {
                     field.getRectangle().setFill(new ImagePattern(imgO));
                     field.setValue(FieldValue.CIRCLE);
@@ -361,19 +355,18 @@ public class KolkoAndKrzyzyk extends Application {
                     turnO = true;
                     fieldWho.setFill(new ImagePattern(imgOsmall));
 
-                    if (playerClicked == false) {
-                        computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
-                    }
-                    if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId)) {
-
-                        return;
-                    }
-
-                    if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1));
-
-                    return;
                 }
 
+                if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId, fieldWho)) {
+                    return;
+                }
+                if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1)) {
+                    return;
+                }
+                if (playerClicked == false) {
+                    computerTurn(rectangleFields, fieldWho, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId);
+
+                }
             }
         });
     }
