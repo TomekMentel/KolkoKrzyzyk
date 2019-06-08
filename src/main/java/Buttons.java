@@ -45,4 +45,13 @@ public class Buttons {
         });
         return btNewGame;
     }
+    public static Button createScoreButton() {
+        Button btScore = new Button("SCORE");
+        btScore.relocate(675, 200);
+        btScore.setStyle("-fx-background-color: #207bdc");
+
+        btScore.setOnAction(event -> {
+        });
+        return btScore;
+    }
 }

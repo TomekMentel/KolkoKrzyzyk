@@ -212,13 +212,11 @@ public class KolkoAndKrzyzyk extends Application {
         tfPlayer2.relocate(590, 50);
         tfPlayer2.setPrefColumnCount(8);
 
-        Button btSave = Buttons.createSaveButton(tfPlayer2, tfPlayer1);
+        Button btSave = Buttons.createSaveButton(tfPlayer1, tfPlayer2);
 
         Button btExit = Buttons.createButtonExit();
 
-        Button btScore = new Button("SCORE");
-        btScore.relocate(675, 200);
-        btScore.setStyle("-fx-background-color: #207bdc");
+        Button btScore = Buttons.createScoreButton();
 
         Button btNewGame = Buttons.createNewGameButton(field1, field2, field3, field4, field5, field6, field7, field8, field9, rectangleFields);
 
@@ -233,7 +231,6 @@ public class KolkoAndKrzyzyk extends Application {
         scoreX.setFont(new Font("Arial", 30));
         scoreX.setTextFill(Color.DARKBLUE);
         scoreX.setText(":" + counterO);
-
 
         RadioButton selectP = new RadioButton();
         selectP.relocate(550, 17);
@@ -256,9 +253,6 @@ public class KolkoAndKrzyzyk extends Application {
         fieldScoreO.setFill(new ImagePattern(imgOsmall));
         fieldScoreX.setFill(new ImagePattern(imgxsmall));
 
-        btScore.setOnAction(event -> {
-        });
-
         emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
         root.getChildren().add(imgView);
@@ -268,20 +262,20 @@ public class KolkoAndKrzyzyk extends Application {
 
         BoardInitialization.createStage(primaryStage, scene);
 
-        addMouseReleased(fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
+        addMouseReleased(fieldWho, rectangleFields);
     }
 
-    private void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9) {
+    private void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
 
-        addMouseReleased(1, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(2, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(3, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(4, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(5, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(6, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(7, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(8, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
-        addMouseReleased(9, fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
+        addMouseReleased(1, fieldWho, rectangleFields);
+        addMouseReleased(2, fieldWho, rectangleFields);
+        addMouseReleased(3, fieldWho, rectangleFields);
+        addMouseReleased(4, fieldWho, rectangleFields);
+        addMouseReleased(5, fieldWho, rectangleFields);
+        addMouseReleased(6, fieldWho, rectangleFields);
+        addMouseReleased(7, fieldWho, rectangleFields);
+        addMouseReleased(8, fieldWho, rectangleFields);
+        addMouseReleased(9, fieldWho, rectangleFields);
     }
 
     private static void emptyField(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
@@ -300,8 +294,7 @@ public class KolkoAndKrzyzyk extends Application {
 
     }
 
-    private void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields, Rectangle field1,
-                                  Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9) {
+    private void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
 
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
