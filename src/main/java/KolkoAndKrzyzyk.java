@@ -20,18 +20,18 @@ public class KolkoAndKrzyzyk extends Application {
 
     Image background = new Image("background1.jpg");
     static Image imgEmpty = new Image("empty.bmp");
-    Image imgO = new Image("o.bmp");
+    static Image imgO = new Image("o.bmp");
     static Image imgX = new Image("x.bmp");
-    Image imgOsmall = new Image("osmall.bmp");
-    Image imgxsmall = new Image("xSmall.bmp");
-    Image imgNoWinners = new Image("NoWinner.jpg");
+    static Image imgOsmall = new Image("osmall.bmp");
+    static Image imgxsmall = new Image("xSmall.bmp");
+    static Image imgNoWinners = new Image("NoWinner.jpg");
 
-    private static boolean turnO = true;
+    public static boolean turnO = true;
 
-    private int counterX;
-    private int counterO;
-    private static Field field;
-    private static int movCounter;
+    private static int counterX;
+    private static int counterO;
+    public static Field field;
+    public static int movCounter;
 
     static Label scoreX = new Label();
     static Label scoreO = new Label();
@@ -39,7 +39,7 @@ public class KolkoAndKrzyzyk extends Application {
     static Random random = new Random();
     static boolean gameOver = false;
 
-    public boolean check(Map<Integer, Field> rectangleFields) {
+    public static boolean check(Map<Integer, Field> rectangleFields) {
 
         if ((compareFieldValues(1, 2, rectangleFields)) && (compareFieldValues(2, 3, rectangleFields)) && (rectangleFields.get(1).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(4, 5, rectangleFields)) && (compareFieldValues(5, 6, rectangleFields)) && (rectangleFields.get(4).getValue() != FieldValue.EMPTY) ||
@@ -67,26 +67,8 @@ public class KolkoAndKrzyzyk extends Application {
         return false;
     }
 
-    private boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
+    private static boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
         return rectangleFields.get(index1).getValue() == rectangleFields.get(index2).getValue();
-    }
-
-    static void newGameTurn(Map<Integer, Field> rectangleFields) {
-        List<Map.Entry<Integer, Field>> possibleFields = rectangleFields.entrySet()
-                .stream()
-                .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
-                .collect(Collectors.toList());
-        int index = random.nextInt(possibleFields.size());
-        Map.Entry<Integer, Field> result = possibleFields.get(index);
-
-        if (turnO == false) {
-            field = rectangleFields.put(result.getKey(), result.getValue());
-            result.getValue().setValue(FieldValue.CROSS);
-            field.getRectangle().setFill(new ImagePattern(imgX));
-
-            movCounter++;
-            turnO = true;
-        }
     }
 
     static void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
@@ -101,42 +83,6 @@ public class KolkoAndKrzyzyk extends Application {
         }
     }
 
-    private void computerTurn(Map<Integer, Field> rectangleFields, Rectangle fieldWho) {
-        List<Map.Entry<Integer, Field>> possibleFields = rectangleFields.entrySet()
-                .stream()
-                .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))
-                .collect(Collectors.toList());
-        int index = random.nextInt(possibleFields.size());
-        Map.Entry<Integer, Field> result = possibleFields.get(index);
-
-        if (turnO) {
-            field = rectangleFields.put(result.getKey(), result.getValue());
-            field.getRectangle().setFill(new ImagePattern(imgO));
-            result.getValue().setValue(FieldValue.CIRCLE);
-
-            movCounter++;
-            turnO = false;
-            fieldWho.setFill(new ImagePattern(imgxsmall));
-
-        } else {
-            field = rectangleFields.put(result.getKey(), result.getValue());
-            field.getRectangle().setFill(new ImagePattern(imgX));
-            result.getValue().setValue(FieldValue.CROSS);
-
-            movCounter++;
-            turnO = true;
-
-            fieldWho.setFill(new ImagePattern(imgOsmall));
-        }
-        if (check(rectangleFields)) {
-            return;
-        }
-        if (noWinner()) {
-            return;
-
-        }
-    }
-
     private void radioButons(List<RadioButton> rbList) {
         ToggleGroup tg = new ToggleGroup();
         for (RadioButton rb : rbList) {
@@ -144,7 +90,7 @@ public class KolkoAndKrzyzyk extends Application {
         }
     }
 
-    private boolean noWinner() {
+    public static boolean noWinner() {
 
         if (movCounter == 9) {
             Alerts.createAlert(imgNoWinners);
@@ -153,7 +99,7 @@ public class KolkoAndKrzyzyk extends Application {
         return false;
     }
 
-    private void score() {
+    private static void score() {
         scoreO.setText(":" + counterO);
         scoreX.setText(":" + counterX);
     }
@@ -325,7 +271,7 @@ public class KolkoAndKrzyzyk extends Application {
                     return;
                 }
                 if (playerClicked == false) {
-                    computerTurn(rectangleFields, fieldWho);
+                    ComputerMove.computerTurn(rectangleFields, fieldWho);
 
                 }
             }

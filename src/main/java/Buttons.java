@@ -40,7 +40,7 @@ public class Buttons {
             KolkoAndKrzyzyk.restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
 
-            KolkoAndKrzyzyk.newGameTurn(rectangleFields);
+            ComputerMove.newGameTurn(rectangleFields);
 
         });
         return btNewGame;
