@@ -1,13 +1,11 @@
-import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-public class ComputerMove extends KolkoAndKrzyzyk{
+public class ComputerMove extends KolkoAndKrzyzyk {
 
     public static void computerTurn(Map<Integer, Field> rectangleFields, Rectangle fieldWho) {
         List<Map.Entry<Integer, Field>> possibleFields = rectangleFields.entrySet()
@@ -36,14 +34,15 @@ public class ComputerMove extends KolkoAndKrzyzyk{
 
             fieldWho.setFill(new ImagePattern(imgOsmall));
         }
-        if (KolkoAndKrzyzyk.check(rectangleFields)) {
+        if (CheckWinner.check(rectangleFields)) {
             return;
         }
-        if (KolkoAndKrzyzyk.noWinner()) {
+        if (Alerts.noWinner(gameOver)) {
             return;
 
         }
     }
+
     static void newGameTurn(Map<Integer, Field> rectangleFields) {
         List<Map.Entry<Integer, Field>> possibleFields = rectangleFields.entrySet()
                 .stream()

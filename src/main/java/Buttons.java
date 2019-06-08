@@ -1,7 +1,10 @@
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,7 +18,7 @@ public class Buttons {
         btSave.setOnAction(event -> {
 
             try {
-                KolkoAndKrzyzyk.writeScore(tfPlayer1, tfPlayer2);
+                WriteScore.writeScore(tfPlayer1, tfPlayer2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -37,7 +40,7 @@ public class Buttons {
         btNewGame.setStyle("-fx-background-color: #2c64dc");
 
         btNewGame.setOnAction(event -> {
-            KolkoAndKrzyzyk.restartGame(field1, field2, field3, field4,
+            NewGame.restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
 
             ComputerMove.newGameTurn(rectangleFields);
@@ -45,6 +48,7 @@ public class Buttons {
         });
         return btNewGame;
     }
+
     public static Button createScoreButton() {
         Button btScore = new Button("SCORE");
         btScore.relocate(675, 200);
@@ -54,4 +58,17 @@ public class Buttons {
         });
         return btScore;
     }
+
+    public static void createScoreLabel(Labeled scoreO, Labeled scoreX) {
+        scoreO.relocate(420, 130);
+        scoreO.setFont(new Font("Arial", 30));
+        scoreO.setTextFill(Color.DARKBLUE);
+        scoreO.setText(": " + KolkoAndKrzyzyk.counterX);
+
+        scoreX.relocate(630, 130);
+        scoreX.setFont(new Font("Arial", 30));
+        scoreX.setTextFill(Color.DARKBLUE);
+        scoreX.setText(":" + KolkoAndKrzyzyk.counterO);
+    }
+
 }

@@ -10,5 +10,12 @@ public class Alerts {
         alert.setTitle("The Winner is:");
         alert.setGraphic(imageView);
         alert.show();
+    }public static boolean noWinner(boolean gameOver) {
+
+        if (KolkoAndKrzyzyk.movCounter == 9) {
+            Alerts.createAlert(KolkoAndKrzyzyk.imgNoWinners);
+            gameOver = true;
+        }
+        return false;
     }
 }

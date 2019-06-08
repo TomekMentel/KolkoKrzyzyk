@@ -3,7 +3,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.Map;
 
-public class PlayerMove extends KolkoAndKrzyzyk{
+public class PlayerMove extends KolkoAndKrzyzyk {
 
     public static void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
 
@@ -42,10 +42,10 @@ public class PlayerMove extends KolkoAndKrzyzyk{
 
                 }
 
-                if (check(rectangleFields)) {
+                if (CheckWinner.check(rectangleFields)) {
                     return;
                 }
-                if (noWinner()) {
+                if (Alerts.noWinner(gameOver)) {
                     return;
                 }
                 if (playerClicked == false) {
