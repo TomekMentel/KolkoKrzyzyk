@@ -14,7 +14,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class KolkoAndKrzyzyk extends Application {
 
@@ -35,7 +34,7 @@ public class KolkoAndKrzyzyk extends Application {
 
     static Label scoreX = new Label();
     static Label scoreO = new Label();
-    private static boolean playerClicked = false;
+    public static boolean playerClicked = false;
     static Random random = new Random();
     static boolean gameOver = false;
 
@@ -208,20 +207,7 @@ public class KolkoAndKrzyzyk extends Application {
 
         BoardInitialization.createStage(primaryStage, scene);
 
-        addMouseReleased(fieldWho, rectangleFields);
-    }
-
-    private void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
-
-        addMouseReleased(1, fieldWho, rectangleFields);
-        addMouseReleased(2, fieldWho, rectangleFields);
-        addMouseReleased(3, fieldWho, rectangleFields);
-        addMouseReleased(4, fieldWho, rectangleFields);
-        addMouseReleased(5, fieldWho, rectangleFields);
-        addMouseReleased(6, fieldWho, rectangleFields);
-        addMouseReleased(7, fieldWho, rectangleFields);
-        addMouseReleased(8, fieldWho, rectangleFields);
-        addMouseReleased(9, fieldWho, rectangleFields);
+        PlayerMove.addMouseReleased(fieldWho, rectangleFields);
     }
 
     private static void emptyField(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
@@ -240,41 +226,5 @@ public class KolkoAndKrzyzyk extends Application {
 
     }
 
-    private void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
 
-        Field field = rectangleFields.get(fieldId);
-        field.getRectangle().setOnMouseReleased(event -> {
-            if (field.getValue() == FieldValue.EMPTY && !gameOver) {
-
-                if (turnO) {
-                    field.getRectangle().setFill(new ImagePattern(imgO));
-                    field.setValue(FieldValue.CIRCLE);
-
-                    movCounter++;
-                    turnO = false;
-                    fieldWho.setFill(new ImagePattern(imgxsmall));
-
-                } else {
-                    field.getRectangle().setFill(new ImagePattern(imgX));
-                    field.setValue(FieldValue.CROSS);
-
-                    movCounter++;
-                    turnO = true;
-                    fieldWho.setFill(new ImagePattern(imgOsmall));
-
-                }
-
-                if (check(rectangleFields)) {
-                    return;
-                }
-                if (noWinner()) {
-                    return;
-                }
-                if (playerClicked == false) {
-                    ComputerMove.computerTurn(rectangleFields, fieldWho);
-
-                }
-            }
-        });
-    }
 }
