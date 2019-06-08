@@ -34,14 +34,13 @@ public class KolkoAndKrzyzyk extends Application {
     private Field field;
     private int movCounter;
 
-    Label scoreX = new Label();
-    Label scoreO = new Label();
+    static Label scoreX = new Label();
+    static Label scoreO = new Label();
     private boolean playerClicked = false;
     Random random = new Random();
-    boolean gameOver=false;
+    boolean gameOver = false;
 
-    public boolean check(Map<Integer, Field> rectangleFields, Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4,
-                         Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Integer fieldId, Rectangle fieldWho) {
+    public boolean check(Map<Integer, Field> rectangleFields) {
 
         if ((compareFieldValues(1, 2, rectangleFields)) && (compareFieldValues(2, 3, rectangleFields)) && (rectangleFields.get(1).getValue() != FieldValue.EMPTY) ||
                 (compareFieldValues(4, 5, rectangleFields)) && (compareFieldValues(5, 6, rectangleFields)) && (rectangleFields.get(4).getValue() != FieldValue.EMPTY) ||
@@ -55,18 +54,18 @@ public class KolkoAndKrzyzyk extends Application {
             if (turnO) {
                 counterX++;
                 score();
-                createAlert(imgX);
+                Alerts.createAlert(imgX);
                 playerClicked = true;
 
 
             } else {
                 counterO++;
-                createAlert(imgO);
+                Alerts.createAlert(imgO);
                 score();
                 playerClicked = true;
 
             }
-            gameOver=true;
+            gameOver = true;
         }
         return false;
     }
@@ -91,7 +90,7 @@ public class KolkoAndKrzyzyk extends Application {
         }
     }
 
-    void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
+    static void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
 
         try (FileWriter bw = new FileWriter("users.txt", true)) {
             BufferedWriter out = new BufferedWriter(bw);
@@ -130,21 +129,13 @@ public class KolkoAndKrzyzyk extends Application {
 
             fieldWho.setFill(new ImagePattern(imgOsmall));
         }
-        if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId, fieldWho)) {
+        if (check(rectangleFields)) {
             return;
         }
-        if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1)) {
+        if (noWinner()) {
             return;
 
         }
-    }
-
-    private void createAlert(Image img) {
-        ImageView imageView = new ImageView(img);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("The Winner is:");
-        alert.setGraphic(imageView);
-        alert.show();
     }
 
     private void radioButons(List<RadioButton> rbList) {
@@ -154,13 +145,11 @@ public class KolkoAndKrzyzyk extends Application {
         }
     }
 
-    private boolean noWinner(Rectangle field5, Rectangle field6, Rectangle field7,
-                             Rectangle field8, Rectangle field9, Map<Integer, Field> rectangleFields,
-                             Rectangle field4, Rectangle field3, Rectangle field2, Rectangle field1) {
+    private boolean noWinner() {
 
         if (movCounter == 9) {
-            createAlert(imgNoWinners);
-            gameOver=true;
+            Alerts.createAlert(imgNoWinners);
+            gameOver = true;
         }
         return false;
     }
@@ -176,7 +165,7 @@ public class KolkoAndKrzyzyk extends Application {
         rectangleFields.forEach((key, value) -> value.setValue(FieldValue.EMPTY));
         movCounter = 0;
         playerClicked = false;
-        gameOver=false;
+        gameOver = false;
     }
 
     public static void main(String[] args) {
@@ -214,9 +203,17 @@ public class KolkoAndKrzyzyk extends Application {
         rectangleFields.put(8, new Field(field8));
         rectangleFields.put(9, new Field(field9));
 
-        Button btSave = new Button("SAVE");
-        btSave.relocate(682, 170);
-        btSave.setStyle("-fx-background-color: #207bdc");
+        TextField tfPlayer1 = new TextField();
+        tfPlayer1.setText("Enter your name");
+        tfPlayer1.relocate(350, 50);
+        tfPlayer1.setPrefColumnCount(8);
+
+        TextField tfPlayer2 = new TextField();
+        tfPlayer2.setText("Computer");
+        tfPlayer2.relocate(590, 50);
+        tfPlayer2.setPrefColumnCount(8);
+
+        Button btSave = Buttons.createSaveButton(tfPlayer1, tfPlayer2);
 
         Button btScore = new Button("SCORE");
         btScore.relocate(675, 200);
@@ -242,15 +239,6 @@ public class KolkoAndKrzyzyk extends Application {
         scoreX.setTextFill(Color.DARKBLUE);
         scoreX.setText(":" + counterO);
 
-        TextField tfPlayer1 = new TextField();
-        tfPlayer1.setText("Enter your name");
-        tfPlayer1.relocate(350, 50);
-        tfPlayer1.setPrefColumnCount(8);
-
-        TextField tfPlayer2 = new TextField();
-        tfPlayer2.setText("Computer");
-        tfPlayer2.relocate(590, 50);
-        tfPlayer2.setPrefColumnCount(8);
 
         RadioButton selectP = new RadioButton();
         selectP.relocate(550, 17);
@@ -279,14 +267,6 @@ public class KolkoAndKrzyzyk extends Application {
 
         });
 
-        btSave.setOnAction(event -> {
-            try {
-                writeScore(tfPlayer1, tfPlayer2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
         btNewGame.setOnAction(event -> {
             restartGame(field1, field2, field3, field4,
                     field5, field6, field7, field8, field9, rectangleFields);
@@ -302,10 +282,7 @@ public class KolkoAndKrzyzyk extends Application {
         root.getChildren().addAll(fieldWho, fieldScoreO, fieldScoreX);
         root.getChildren().addAll(field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
-        primaryStage.setTitle("Kolko I Krzyzyk");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        primaryStage.setResizable(false);
+        BoardInitialization.createStage(primaryStage, scene);
         addMouseReleased(fieldWho, rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9);
     }
 
@@ -364,10 +341,10 @@ public class KolkoAndKrzyzyk extends Application {
 
                 }
 
-                if (check(rectangleFields, field1, field2, field3, field4, field5, field6, field7, field8, field9, fieldId, fieldWho)) {
+                if (check(rectangleFields)) {
                     return;
                 }
-                if (noWinner(field5, field6, field7, field8, field9, rectangleFields, field4, field3, field2, field1)) {
+                if (noWinner()) {
                     return;
                 }
                 if (playerClicked == false) {
