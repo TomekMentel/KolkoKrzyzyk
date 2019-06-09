@@ -28,4 +28,8 @@ public class CheckWinner extends KolkoAndKrzyzyk {
         }
         return false;
     }
+
+    static boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
+        return rectangleFields.get(index1).getValue() == rectangleFields.get(index2).getValue();
+    }
 }

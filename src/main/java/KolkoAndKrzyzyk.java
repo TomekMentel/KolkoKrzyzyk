@@ -33,10 +33,6 @@ public class KolkoAndKrzyzyk extends Application {
     static Random random = new Random();
     static boolean gameOver = false;
 
-    static boolean compareFieldValues(Integer index1, Integer index2, Map<Integer, Field> rectangleFields) {
-        return rectangleFields.get(index1).getValue() == rectangleFields.get(index2).getValue();
-    }
-
     private void radioButons(List<RadioButton> rbList) {
         ToggleGroup tg = new ToggleGroup();
         for (RadioButton rb : rbList) {
@@ -130,7 +126,6 @@ public class KolkoAndKrzyzyk extends Application {
         root.getChildren().addAll(scoreO, scoreX, btNewGame, btExit, btSave, btScore, tfPlayer1, tfPlayer2, selectP, selectC);
         root.getChildren().addAll(fieldWho, fieldScoreO, fieldScoreX);
         root.getChildren().addAll(field1, field2, field3, field4, field5, field6, field7, field8, field9);
-
 
     }
 }

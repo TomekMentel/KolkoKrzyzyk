@@ -44,8 +44,8 @@ public class Buttons {
                     field5, field6, field7, field8, field9, rectangleFields);
 
             ComputerMove.newGameTurn(rectangleFields);
-
         });
+
         return btNewGame;
     }
 

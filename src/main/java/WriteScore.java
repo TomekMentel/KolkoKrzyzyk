@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class WriteScore {
 
-
     static void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
 
         try (FileWriter bw = new FileWriter("users.txt", true)) {
