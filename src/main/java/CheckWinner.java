@@ -14,14 +14,14 @@ public class CheckWinner extends KolkoAndKrzyzyk {
 
             if (turnO) {
                 counterX++;
-                WriteScore.score();
+                WriteLoadScore.score();
                 Alerts.createAlert(imgX);
                 playerClicked = true;
 
             } else {
                 counterO++;
                 Alerts.createAlert(imgO);
-                WriteScore.score();
+                WriteLoadScore.score();
                 playerClicked = true;
             }
             gameOver = true;

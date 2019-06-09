@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class WriteScore {
+public class WriteLoadScore {
 
     static void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
 

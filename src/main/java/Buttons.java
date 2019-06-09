@@ -18,7 +18,7 @@ public class Buttons {
         btSave.setOnAction(event -> {
 
             try {
-                WriteScore.writeScore(tfPlayer1, tfPlayer2);
+                WriteLoadScore.writeScore(tfPlayer1, tfPlayer2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -55,6 +55,7 @@ public class Buttons {
         btScore.setStyle("-fx-background-color: #207bdc");
 
         btScore.setOnAction(event -> {
+            ScoreWindow.score();
         });
         return btScore;
     }
