@@ -45,7 +45,7 @@ public class PlayerMove extends KolkoAndKrzyzyk {
                 if (CheckWinner.check(rectangleFields)) {
                     return;
                 }
-                if (Alerts.noWinner(gameOver)) {
+                if (Alerts.noWinner()) {
                     return;
                 }
                 if (playerClicked == false) {

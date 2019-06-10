@@ -37,7 +37,7 @@ public class ComputerMove extends KolkoAndKrzyzyk {
         if (CheckWinner.check(rectangleFields)) {
             return;
         }
-        if (Alerts.noWinner(gameOver)) {
+        if (Alerts.noWinner()) {
             return;
 
         }

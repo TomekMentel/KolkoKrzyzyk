@@ -1,12 +1,10 @@
 import javafx.scene.control.TextField;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class WriteLoadScore {
 
-    static void writeScore(TextField tfUsername1, TextField tfUsername2) throws IOException {
+    static void writeScore(TextField tfUsername1, TextField tfUsername2) {
 
         try (FileWriter bw = new FileWriter("users.txt", true)) {
             BufferedWriter out = new BufferedWriter(bw);
@@ -19,7 +17,36 @@ public class WriteLoadScore {
     }
 
     static void score() {
+
         KolkoAndKrzyzyk.scoreO.setText(":" + KolkoAndKrzyzyk.counterO);
         KolkoAndKrzyzyk.scoreX.setText(":" + KolkoAndKrzyzyk.counterX);
+    }
+
+    static String loadScore() {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("users.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }{
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            try {
+                line = br.readLine();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                try {
+                    line = br.readLine();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return sb.toString();
+        }
     }
 }

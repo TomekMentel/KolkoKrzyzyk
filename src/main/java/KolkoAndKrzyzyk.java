@@ -45,7 +45,8 @@ public class KolkoAndKrzyzyk extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
+
         Group root = new Group();
         Scene scene = new Scene(root, 709, 288);
 
@@ -75,6 +76,17 @@ public class KolkoAndKrzyzyk extends Application {
         rectangleFields.put(8, new Field(field8));
         rectangleFields.put(9, new Field(field9));
 
+        List <Rectangle> fields = new ArrayList<>();
+        fields.add(field1);
+        fields.add(field2);
+        fields.add(field3);
+        fields.add(field4);
+        fields.add(field5);
+        fields.add(field6);
+        fields.add(field7);
+        fields.add(field8);
+        fields.add(field9);
+
         TextField tfPlayer1 = new TextField();
         tfPlayer1.setText("Enter your name");
         tfPlayer1.relocate(350, 50);
@@ -91,11 +103,11 @@ public class KolkoAndKrzyzyk extends Application {
 
         Button btScore = Buttons.createScoreButton();
 
-        Button btNewGame = Buttons.createNewGameButton(field1, field2, field3, field4, field5, field6, field7, field8, field9, rectangleFields);
+        Button btNewGame = Buttons.createNewGameButton(fields,rectangleFields);
 
         Buttons.createScoreLabel(scoreO, scoreX);
 
-        NewGame.emptyField(field1, field2, field3, field4, field5, field6, field7, field8, field9);
+        NewGame.emptyField(fields);
 
         BoardInitialization.createStage(primaryStage, scene);
 
@@ -126,6 +138,5 @@ public class KolkoAndKrzyzyk extends Application {
         root.getChildren().addAll(scoreO, scoreX, btNewGame, btExit, btSave, btScore, tfPlayer1, tfPlayer2, selectP, selectC);
         root.getChildren().addAll(fieldWho, fieldScoreO, fieldScoreX);
         root.getChildren().addAll(field1, field2, field3, field4, field5, field6, field7, field8, field9);
-
     }
 }

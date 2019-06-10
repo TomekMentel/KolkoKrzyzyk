@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Buttons {
@@ -15,14 +15,7 @@ public class Buttons {
         Button btSave = new Button("SAVE");
         btSave.relocate(682, 170);
         btSave.setStyle("-fx-background-color: #207bdc");
-        btSave.setOnAction(event -> {
-
-            try {
-                WriteLoadScore.writeScore(tfPlayer1, tfPlayer2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        btSave.setOnAction(event -> WriteLoadScore.writeScore(tfPlayer1, tfPlayer2));
         return btSave;
     }
 
@@ -34,14 +27,13 @@ public class Buttons {
         return btExit;
     }
 
-    public static Button createNewGameButton(Rectangle field1, Rectangle field2, Rectangle field3, Rectangle field4, Rectangle field5, Rectangle field6, Rectangle field7, Rectangle field8, Rectangle field9, Map<Integer, Field> rectangleFields) {
+    public static Button createNewGameButton(List<Rectangle> fields, Map<Integer, Field> rectangleFields) {
         Button btNewGame = new Button("NEW GAME");
         btNewGame.relocate(602, 275);
         btNewGame.setStyle("-fx-background-color: #2c64dc");
 
         btNewGame.setOnAction(event -> {
-            NewGame.restartGame(field1, field2, field3, field4,
-                    field5, field6, field7, field8, field9, rectangleFields);
+            NewGame.restartGame( fields, rectangleFields);
 
             ComputerMove.newGameTurn(rectangleFields);
         });
@@ -56,7 +48,9 @@ public class Buttons {
 
         btScore.setOnAction(event -> {
             ScoreWindow.score();
+            WriteLoadScore.loadScore();
         });
+
         return btScore;
     }
 
@@ -71,5 +65,4 @@ public class Buttons {
         scoreX.setTextFill(Color.DARKBLUE);
         scoreX.setText(":" + KolkoAndKrzyzyk.counterO);
     }
-
 }

@@ -11,11 +11,11 @@ import javafx.stage.Stage;
 public class ScoreWindow extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-
+    public void start(Stage primaryStage) {
     }
 
     public static void score() {
+
         Group root = new Group();
         Scene scene = new Scene(root, 400, 470);
         Stage stageScore = new Stage();
@@ -25,18 +25,15 @@ public class ScoreWindow extends Application {
 
         ListView lvScore = new ListView();
         lvScore.relocate(80, 50);
-
+        lvScore.getItems().addAll(WriteLoadScore.loadScore());
         Image background = new Image("background.jpg");
         ImageView imgView = new ImageView(background);
 
         root.getChildren().add(imgView);
         root.getChildren().addAll(exit, lvScore);
-        // root.getChildren(vBox);
         stageScore.setTitle("Score");
         stageScore.setScene(scene);
         stageScore.show();
         stageScore.setResizable(false);
-
     }
-
 }
