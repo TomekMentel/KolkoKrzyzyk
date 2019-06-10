@@ -15,7 +15,7 @@ public class Alerts {
 
     public static boolean noWinner() {
 
-        if (KolkoAndKrzyzyk.movCounter == 9) {
+        if (KolkoAndKrzyzyk.movCounter == 9 && !KolkoAndKrzyzyk.gameOver) {
             Alerts.createAlert(KolkoAndKrzyzyk.imgNoWinners);
         }
 

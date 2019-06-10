@@ -6,7 +6,7 @@ public class WriteLoadScore {
 
     static void writeScore(TextField tfUsername1, TextField tfUsername2) {
 
-        try (FileWriter bw = new FileWriter("users.txt", true)) {
+        try (FileWriter bw = new FileWriter("users.txt" , true)) {
             BufferedWriter out = new BufferedWriter(bw);
             bw.write(tfUsername1.getText() + " VS " + tfUsername2.getText() + KolkoAndKrzyzyk.scoreO.getText() + KolkoAndKrzyzyk.scoreX.getText());
             bw.write("\r\n");

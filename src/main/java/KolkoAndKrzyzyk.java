@@ -12,7 +12,7 @@ import java.util.*;
 
 public class KolkoAndKrzyzyk extends Application {
 
-    Image background = new Image("background1.jpg");
+    private Image background = new Image("background1.jpg");
     static Image imgEmpty = new Image("empty.bmp");
     static Image imgO = new Image("o.bmp");
     static Image imgX = new Image("x.bmp");
@@ -33,7 +33,7 @@ public class KolkoAndKrzyzyk extends Application {
     static Random random = new Random();
     static boolean gameOver = false;
 
-    private void radioButons(List<RadioButton> rbList) {
+    private void radioButtons(List<RadioButton> rbList) {
         ToggleGroup tg = new ToggleGroup();
         for (RadioButton rb : rbList) {
             rb.setToggleGroup(tg);
@@ -125,10 +125,10 @@ public class KolkoAndKrzyzyk extends Application {
             playerClicked = false;
         });
 
-        List<RadioButton> rbList = new ArrayList<RadioButton>();
+        List<RadioButton> rbList = new ArrayList<>();
         rbList.add(selectC);
         rbList.add(selectP);
-        radioButons(rbList);
+        radioButtons(rbList);
 
         fieldWho.setFill(new ImagePattern(imgOsmall));
         fieldScoreO.setFill(new ImagePattern(imgOsmall));
