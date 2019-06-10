@@ -1,3 +1,5 @@
+package data;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -7,31 +9,32 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import logic.PlayerMove;
 
 import java.util.*;
 
 public class KolkoAndKrzyzyk extends Application {
 
     private Image background = new Image("background1.jpg");
-    static Image imgEmpty = new Image("empty.bmp");
-    static Image imgO = new Image("o.bmp");
-    static Image imgX = new Image("x.bmp");
-    static Image imgOsmall = new Image("osmall.bmp");
-    static Image imgxsmall = new Image("xSmall.bmp");
+    protected static Image imgEmpty = new Image("empty.bmp");
+    protected static Image imgO = new Image("o.bmp");
+    protected static Image imgX = new Image("x.bmp");
+    protected static Image imgOsmall = new Image("osmall.bmp");
+    protected static Image imgxsmall = new Image("xSmall.bmp");
     static Image imgNoWinners = new Image("NoWinner.jpg");
 
     public static boolean turnO = true;
 
-    public static int counterX;
-    public static int counterO;
-    public static Field field;
-    public static int movCounter;
+    protected static int counterX;
+    protected static int counterO;
+    protected static Field field;
+    protected static int movCounter;
 
-    static Label scoreX = new Label();
-    static Label scoreO = new Label();
-    public static boolean playerClicked = false;
-    static Random random = new Random();
-    static boolean gameOver = false;
+    protected static Label scoreX = new Label();
+    protected static Label scoreO = new Label();
+    protected static boolean playerClicked = false;
+    protected static Random random = new Random();
+    protected static boolean gameOver = false;
 
     private void radioButtons(List<RadioButton> rbList) {
         ToggleGroup tg = new ToggleGroup();

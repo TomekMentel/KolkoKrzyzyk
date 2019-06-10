@@ -1,3 +1,9 @@
+package logic;
+
+import data.Alerts;
+import data.Field;
+import data.FieldValue;
+import data.KolkoAndKrzyzyk;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 

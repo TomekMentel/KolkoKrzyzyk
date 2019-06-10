@@ -1,3 +1,9 @@
+package logic;
+
+import data.Alerts;
+import data.Field;
+import data.FieldValue;
+import data.KolkoAndKrzyzyk;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -43,7 +49,7 @@ public class ComputerMove extends KolkoAndKrzyzyk {
         }
     }
 
-    static void newGameTurn(Map<Integer, Field> rectangleFields) {
+    public static void newGameTurn(Map<Integer, Field> rectangleFields) {
         List<Map.Entry<Integer, Field>> possibleFields = rectangleFields.entrySet()
                 .stream()
                 .filter(map -> FieldValue.EMPTY.equals(map.getValue().getValue()))

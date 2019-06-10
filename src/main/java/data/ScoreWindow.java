@@ -1,3 +1,4 @@
+package data;
 
 import javafx.application.Application;
 import javafx.scene.Group;

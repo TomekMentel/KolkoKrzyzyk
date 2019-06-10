@@ -1,3 +1,7 @@
+package logic;
+
+import data.*;
+
 import java.util.Map;
 
 public class CheckWinner extends KolkoAndKrzyzyk {

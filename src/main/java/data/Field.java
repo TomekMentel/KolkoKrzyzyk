@@ -1,3 +1,5 @@
+package data;
+
 import javafx.scene.shape.Rectangle;
 
 import java.util.Objects;

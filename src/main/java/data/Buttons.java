@@ -1,3 +1,5 @@
+package data;
+
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
@@ -5,9 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import logic.ComputerMove;
 
 import java.util.List;
 import java.util.Map;
+
 
 public class Buttons {
 
@@ -33,7 +37,7 @@ public class Buttons {
         btNewGame.setStyle("-fx-background-color: #2c64dc");
 
         btNewGame.setOnAction(event -> {
-            NewGame.restartGame( fields, rectangleFields);
+            NewGame.restartGame(fields, rectangleFields);
 
             ComputerMove.newGameTurn(rectangleFields);
         });
