@@ -11,10 +11,6 @@ import javafx.stage.Stage;
 
 public class ScoreWindow extends Application {
 
-    @Override
-    public void start(Stage primaryStage) {
-    }
-
     public static void score() {
         Group root = new Group();
         Scene scene = new Scene(root, 400, 470);
@@ -35,5 +31,9 @@ public class ScoreWindow extends Application {
         stageScore.setScene(scene);
         stageScore.show();
         stageScore.setResizable(false);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
     }
 }

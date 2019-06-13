@@ -3,7 +3,10 @@ package data;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
@@ -11,7 +14,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import logic.PlayerMove;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class KolkoAndKrzyzyk extends Application {
 
@@ -24,7 +29,6 @@ public class KolkoAndKrzyzyk extends Application {
     static Image imgNoWinners = new Image("NoWinner.jpg");
 
     public static boolean turnO = true;
-
     protected static int counterX;
     protected static int counterO;
     protected static Field field;
@@ -41,8 +45,7 @@ public class KolkoAndKrzyzyk extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage){
-
+    public void start(Stage primaryStage) {
         Group root = new Group();
         Scene scene = new Scene(root, 709, 288);
 
@@ -61,18 +64,11 @@ public class KolkoAndKrzyzyk extends Application {
         Rectangle fieldScoreO = new Rectangle(380, 135, 28, 28);
         Rectangle fieldScoreX = new Rectangle(590, 135, 28, 28);
 
-        Map<Integer, Field> rectangleFields = new HashMap<>();
-        rectangleFields.put(1, new Field(field1));
-        rectangleFields.put(2, new Field(field2));
-        rectangleFields.put(3, new Field(field3));
-        rectangleFields.put(4, new Field(field4));
-        rectangleFields.put(5, new Field(field5));
-        rectangleFields.put(6, new Field(field6));
-        rectangleFields.put(7, new Field(field7));
-        rectangleFields.put(8, new Field(field8));
-        rectangleFields.put(9, new Field(field9));
+        Map<Integer, Field> rectangleFields = BoardFields.rectangleFields
+                (field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
-        List<Rectangle> fields = Field.fields(field1, field2, field3, field4, field5, field6, field7, field8, field9);
+        List<Rectangle> fields = BoardFields.fields
+                (field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
         TextField tfPlayer1 = TextFields.tfPlayer1();
         TextField tfPlayer2 = TextFields.tfPlayer2();
@@ -80,8 +76,8 @@ public class KolkoAndKrzyzyk extends Application {
         Button btSave = Buttons.createSaveButton(tfPlayer1, tfPlayer2);
         Button btExit = Buttons.createButtonExit();
         Button btScore = Buttons.createScoreButton();
-        Button btNewGame = Buttons.createNewGameButton(fields,rectangleFields);
-        Buttons.createScoreLabel(scoreO, scoreX);
+        Button btNewGame = Buttons.createNewGameButton(fields, rectangleFields);
+        Labels.createScoreLabel(scoreO, scoreX);
 
         NewGame.emptyField(fields);
 

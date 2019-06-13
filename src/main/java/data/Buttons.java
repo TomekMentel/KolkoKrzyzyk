@@ -1,12 +1,9 @@
 package data;
 
-import javafx.application.Platform;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import logic.ComputerMove;
 
 import java.util.List;
@@ -27,7 +24,10 @@ public class Buttons {
         Button btExit = new Button("EXIT");
         btExit.relocate(682, 275);
         btExit.setStyle("-fx-background-color: #dc3b44");
-        btExit.setOnAction(actionEvent -> Platform.exit());
+        btExit.setOnAction(actionEvent -> {
+            javafx.stage.Stage stage = (Stage) btExit.getScene().getWindow();
+            stage.close();
+        });
         return btExit;
     }
 
@@ -41,7 +41,6 @@ public class Buttons {
 
             ComputerMove.newGameTurn(rectangleFields);
         });
-
         return btNewGame;
     }
 
@@ -54,19 +53,6 @@ public class Buttons {
             ScoreWindow.score();
             WriteLoadScore.loadScore();
         });
-
         return btScore;
-    }
-
-    public static void createScoreLabel(Labeled scoreO, Labeled scoreX) {
-        scoreO.relocate(420, 130);
-        scoreO.setFont(new Font("Arial", 30));
-        scoreO.setTextFill(Color.DARKBLUE);
-        scoreO.setText(": " + KolkoAndKrzyzyk.counterX);
-
-        scoreX.relocate(630, 130);
-        scoreX.setFont(new Font("Arial", 30));
-        scoreX.setTextFill(Color.DARKBLUE);
-        scoreX.setText(":" + KolkoAndKrzyzyk.counterO);
     }
 }

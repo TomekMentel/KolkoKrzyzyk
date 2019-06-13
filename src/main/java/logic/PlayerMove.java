@@ -12,7 +12,6 @@ import java.util.Map;
 public class PlayerMove extends KolkoAndKrzyzyk {
 
     public static void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
-
         addMouseReleased(1, fieldWho, rectangleFields);
         addMouseReleased(2, fieldWho, rectangleFields);
         addMouseReleased(3, fieldWho, rectangleFields);
@@ -25,7 +24,6 @@ public class PlayerMove extends KolkoAndKrzyzyk {
     }
 
     private static void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
-
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
             if (field.getValue() == FieldValue.EMPTY && !gameOver) {
@@ -45,9 +43,7 @@ public class PlayerMove extends KolkoAndKrzyzyk {
                     movCounter++;
                     turnO = true;
                     fieldWho.setFill(new ImagePattern(imgOsmall));
-
                 }
-
                 if (CheckWinner.check(rectangleFields)) {
                     return;
                 }
@@ -56,7 +52,6 @@ public class PlayerMove extends KolkoAndKrzyzyk {
                 }
                 if (playerClicked == false) {
                     ComputerMove.computerTurn(rectangleFields, fieldWho);
-
                 }
             }
         });

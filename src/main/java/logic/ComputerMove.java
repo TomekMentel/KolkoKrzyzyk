@@ -45,7 +45,6 @@ public class ComputerMove extends KolkoAndKrzyzyk {
         }
         if (Alerts.noWinner()) {
             return;
-
         }
     }
 
