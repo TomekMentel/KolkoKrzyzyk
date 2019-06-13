@@ -8,7 +8,6 @@ import java.util.Map;
 public class NewGame extends KolkoAndKrzyzyk {
 
     static void restartGame(List<Rectangle> fields, Map<Integer, Field> rectangleFields) {
-
         emptyField(fields);
         rectangleFields.forEach((key, value) -> value.setValue(FieldValue.EMPTY));
 
@@ -18,9 +17,7 @@ public class NewGame extends KolkoAndKrzyzyk {
     }
 
     static void emptyField(List<Rectangle> fields) {
-
         for (int i = 0; i < 9; i++) {
-
             fields.get(i).setFill(new ImagePattern(imgEmpty));
         }
     }

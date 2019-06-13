@@ -36,13 +36,6 @@ public class KolkoAndKrzyzyk extends Application {
     protected static Random random = new Random();
     protected static boolean gameOver = false;
 
-    private void radioButtons(List<RadioButton> rbList) {
-        ToggleGroup tg = new ToggleGroup();
-        for (RadioButton rb : rbList) {
-            rb.setToggleGroup(tg);
-        }
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -79,35 +72,15 @@ public class KolkoAndKrzyzyk extends Application {
         rectangleFields.put(8, new Field(field8));
         rectangleFields.put(9, new Field(field9));
 
-        List <Rectangle> fields = new ArrayList<>();
-        fields.add(field1);
-        fields.add(field2);
-        fields.add(field3);
-        fields.add(field4);
-        fields.add(field5);
-        fields.add(field6);
-        fields.add(field7);
-        fields.add(field8);
-        fields.add(field9);
+        List<Rectangle> fields = Field.fields(field1, field2, field3, field4, field5, field6, field7, field8, field9);
 
-        TextField tfPlayer1 = new TextField();
-        tfPlayer1.setText("Enter your name");
-        tfPlayer1.relocate(350, 50);
-        tfPlayer1.setPrefColumnCount(8);
-
-        TextField tfPlayer2 = new TextField();
-        tfPlayer2.setText("Computer");
-        tfPlayer2.relocate(590, 50);
-        tfPlayer2.setPrefColumnCount(8);
+        TextField tfPlayer1 = TextFields.tfPlayer1();
+        TextField tfPlayer2 = TextFields.tfPlayer2();
 
         Button btSave = Buttons.createSaveButton(tfPlayer1, tfPlayer2);
-
         Button btExit = Buttons.createButtonExit();
-
         Button btScore = Buttons.createScoreButton();
-
         Button btNewGame = Buttons.createNewGameButton(fields,rectangleFields);
-
         Buttons.createScoreLabel(scoreO, scoreX);
 
         NewGame.emptyField(fields);
@@ -116,22 +89,9 @@ public class KolkoAndKrzyzyk extends Application {
 
         PlayerMove.addMouseReleased(fieldWho, rectangleFields);
 
-        RadioButton selectP = new RadioButton();
-        selectP.relocate(550, 17);
-        selectP.setOnAction(event -> {
-            playerClicked = true;
-        });
-
-        RadioButton selectC = new RadioButton();
-        selectC.relocate(550, 95);
-        selectC.setOnAction(event -> {
-            playerClicked = false;
-        });
-
-        List<RadioButton> rbList = new ArrayList<>();
-        rbList.add(selectC);
-        rbList.add(selectP);
-        radioButtons(rbList);
+        RadioButton selectP = RadioButtons.rbSelectPlayer();
+        RadioButton selectC = RadioButtons.rbSelectComputer();
+        RadioButtons.rbList(selectP, selectC);
 
         fieldWho.setFill(new ImagePattern(imgOsmall));
         fieldScoreO.setFill(new ImagePattern(imgOsmall));

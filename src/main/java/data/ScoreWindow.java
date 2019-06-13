@@ -16,7 +16,6 @@ public class ScoreWindow extends Application {
     }
 
     public static void score() {
-
         Group root = new Group();
         Scene scene = new Scene(root, 400, 470);
         Stage stageScore = new Stage();
@@ -24,7 +23,7 @@ public class ScoreWindow extends Application {
         Button exit = Buttons.createButtonExit();
         exit.relocate(372, 455);
 
-        ListView lvScore = new ListView();
+        ListView<String> lvScore = new ListView<>();
         lvScore.relocate(80, 50);
         lvScore.getItems().addAll(WriteLoadScore.loadScore());
         Image background = new Image("background.jpg");
