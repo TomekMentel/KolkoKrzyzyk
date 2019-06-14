@@ -1,4 +1,4 @@
-package data;
+package logic.menu;
 
 import javafx.scene.control.TextField;
 

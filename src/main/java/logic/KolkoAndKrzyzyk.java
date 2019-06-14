@@ -1,8 +1,10 @@
-package data;
+package logic;
 
 import board.BoardFields;
 import board.BoardInitialization;
 import board.Field;
+import components.Buttons;
+import components.Images;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,12 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import logic.PlayerMove;
+import logic.menu.Labels;
+import logic.menu.RadioButtons;
+import logic.menu.TextFields;
+import logic.movement.PlayerMove;
 
 import java.util.List;
 import java.util.Map;
@@ -23,25 +27,10 @@ import java.util.Random;
 
 public class KolkoAndKrzyzyk extends Application {
 
-    private Image background = new Image("background1.jpg");
-    protected static Image imgEmpty = new Image("empty.bmp");
-    protected static Image imgO = new Image("o.bmp");
-    protected static Image imgX = new Image("x.bmp");
-    protected static Image imgOsmall = new Image("osmall.bmp");
-    protected static Image imgxsmall = new Image("xSmall.bmp");
-    static Image imgNoWinners = new Image("NoWinner.jpg");
-
-    public static boolean turnO = true;
-    protected static int counterX;
-    protected static int counterO;
-    protected static Field field;
-    protected static int movCounter;
-
+    public static Field field;
     protected static Label scoreX = new Label();
     protected static Label scoreO = new Label();
-    protected static boolean playerClicked = false;
-    protected static Random random = new Random();
-    protected static boolean gameOver = false;
+    public static Random random = new Random();
 
     public static void main(String[] args) {
         launch(args);
@@ -52,7 +41,7 @@ public class KolkoAndKrzyzyk extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, 709, 288);
 
-        ImageView imgView = new ImageView(background);
+        ImageView imgView = new ImageView(Images.background);
         Rectangle field1 = new Rectangle(1, 1, 100, 100);
         Rectangle field2 = new Rectangle(100, 1, 100, 100);
         Rectangle field3 = new Rectangle(200, 1, 100, 100);
@@ -92,9 +81,9 @@ public class KolkoAndKrzyzyk extends Application {
         RadioButton selectC = RadioButtons.rbSelectComputer();
         RadioButtons.rbList(selectP, selectC);
 
-        fieldWho.setFill(new ImagePattern(imgOsmall));
-        fieldScoreO.setFill(new ImagePattern(imgOsmall));
-        fieldScoreX.setFill(new ImagePattern(imgxsmall));
+        fieldWho.setFill(new ImagePattern(Images.imgOsmall));
+        fieldScoreO.setFill(new ImagePattern(Images.imgOsmall));
+        fieldScoreX.setFill(new ImagePattern(Images.imgxsmall));
 
         root.getChildren().add(imgView);
         root.getChildren().addAll(scoreO, scoreX, btNewGame, btExit, btSave, btScore, tfPlayer1, tfPlayer2, selectP, selectC);

@@ -12,3 +12,4 @@ public class BoardInitialization {
         primaryStage.setResizable(false);
     }
 }
+

@@ -1,5 +1,7 @@
-package data;
+package logic.menu;
 
+import components.Counter;
+import components.Images;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,8 +18,8 @@ public class Alerts {
     }
 
     public static boolean noWinner() {
-        if (KolkoAndKrzyzyk.movCounter == 9 && !KolkoAndKrzyzyk.gameOver) {
-            Alerts.createAlert(KolkoAndKrzyzyk.imgNoWinners);
+        if (Counter.movCounter == 9 && !Counter.gameOver) {
+            Alerts.createAlert(Images.imgNoWinners);
         }
         return false;
     }

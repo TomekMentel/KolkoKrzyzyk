@@ -1,5 +1,6 @@
-package data;
+package logic.menu;
 
+import components.Buttons;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import logic.WriteLoadScore;
 
 public class ScoreWindow extends Application {
 
@@ -35,5 +37,6 @@ public class ScoreWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
     }
 }

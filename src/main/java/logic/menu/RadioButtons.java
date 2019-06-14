@@ -1,5 +1,6 @@
-package data;
+package logic.menu;
 
+import components.Counter;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -19,7 +20,7 @@ public class RadioButtons {
         RadioButton selectP = new RadioButton();
         selectP.relocate(550, 17);
         selectP.setOnAction(event -> {
-            KolkoAndKrzyzyk.playerClicked = true;
+            Counter.playerClicked = true;
         });
         return selectP;
     }
@@ -35,7 +36,7 @@ public class RadioButtons {
         RadioButton selectC = new RadioButton();
         selectC.relocate(550, 95);
         selectC.setOnAction(event -> {
-            KolkoAndKrzyzyk.playerClicked = false;
+            Counter.playerClicked = false;
         });
         return selectC;
     }

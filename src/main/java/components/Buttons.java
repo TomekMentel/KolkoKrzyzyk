@@ -1,11 +1,14 @@
-package data;
+package components;
 
 import board.Field;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import logic.ComputerMove;
+import logic.NewGame;
+import logic.WriteLoadScore;
+import logic.menu.ScoreWindow;
+import logic.movement.ComputerMove;
 
 import java.util.List;
 import java.util.Map;

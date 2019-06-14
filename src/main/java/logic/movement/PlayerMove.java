@@ -1,15 +1,17 @@
-package logic;
+package logic.movement;
 
-import data.Alerts;
 import board.Field;
 import board.FieldValue;
-import data.KolkoAndKrzyzyk;
+import components.Counter;
+import components.Images;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import logic.CheckWinner;
+import logic.menu.Alerts;
 
 import java.util.Map;
 
-public class PlayerMove extends KolkoAndKrzyzyk {
+public class PlayerMove {
 
     public static void addMouseReleased(Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
         addMouseReleased(1, fieldWho, rectangleFields);
@@ -26,23 +28,23 @@ public class PlayerMove extends KolkoAndKrzyzyk {
     private static void addMouseReleased(Integer fieldId, Rectangle fieldWho, Map<Integer, Field> rectangleFields) {
         Field field = rectangleFields.get(fieldId);
         field.getRectangle().setOnMouseReleased(event -> {
-            if (field.getValue() == FieldValue.EMPTY && !gameOver) {
+            if (field.getValue() == FieldValue.EMPTY && !Counter.gameOver) {
 
-                if (turnO) {
-                    field.getRectangle().setFill(new ImagePattern(imgO));
+                if (Counter.turnO) {
+                    field.getRectangle().setFill(new ImagePattern(Images.imgO));
                     field.setValue(FieldValue.CIRCLE);
 
-                    movCounter++;
-                    turnO = false;
-                    fieldWho.setFill(new ImagePattern(imgxsmall));
+                    Counter.movCounter++;
+                    Counter.turnO = false;
+                    fieldWho.setFill(new ImagePattern(Images.imgxsmall));
 
                 } else {
-                    field.getRectangle().setFill(new ImagePattern(imgX));
+                    field.getRectangle().setFill(new ImagePattern(Images.imgX));
                     field.setValue(FieldValue.CROSS);
 
-                    movCounter++;
-                    turnO = true;
-                    fieldWho.setFill(new ImagePattern(imgOsmall));
+                    Counter.movCounter++;
+                    Counter.turnO = true;
+                    fieldWho.setFill(new ImagePattern(Images.imgOsmall));
                 }
                 if (CheckWinner.check(rectangleFields)) {
                     return;
@@ -50,7 +52,7 @@ public class PlayerMove extends KolkoAndKrzyzyk {
                 if (Alerts.noWinner()) {
                     return;
                 }
-                if (playerClicked == false) {
+                if (Counter.playerClicked == false) {
                     ComputerMove.computerTurn(rectangleFields, fieldWho);
                 }
             }

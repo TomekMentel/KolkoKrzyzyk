@@ -1,12 +1,13 @@
-package data;
+package logic;
 
+import components.Counter;
 import javafx.scene.control.TextField;
 
 import java.io.*;
 
 public class WriteLoadScore {
 
-    static void writeScore(TextField tfUsername1, TextField tfUsername2) {
+    public static void writeScore(TextField tfUsername1, TextField tfUsername2) {
         try (FileWriter bw = new FileWriter("users.txt", true)) {
             BufferedWriter out = new BufferedWriter(bw);
             bw.write(tfUsername1.getText() + "  - vs -  " + tfUsername2.getText() + " " + KolkoAndKrzyzyk.scoreO.getText()
@@ -19,11 +20,11 @@ public class WriteLoadScore {
     }
 
     public static void score() {
-        KolkoAndKrzyzyk.scoreO.setText(":" + KolkoAndKrzyzyk.counterO);
-        KolkoAndKrzyzyk.scoreX.setText(":" + KolkoAndKrzyzyk.counterX);
+        KolkoAndKrzyzyk.scoreO.setText(":" + Counter.counterO);
+        KolkoAndKrzyzyk.scoreX.setText(":" + Counter.counterX);
     }
 
-    static String loadScore() {
+    public static String loadScore() {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("users.txt"));
