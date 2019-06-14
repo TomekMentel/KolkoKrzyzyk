@@ -1,5 +1,8 @@
 package data;
 
+import board.BoardFields;
+import board.BoardInitialization;
+import board.Field;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

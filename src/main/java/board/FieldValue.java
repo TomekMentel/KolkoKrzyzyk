@@ -1,4 +1,4 @@
-package data;
+package board;
 
 public enum FieldValue {
     EMPTY,

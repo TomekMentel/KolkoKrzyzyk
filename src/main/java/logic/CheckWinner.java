@@ -1,5 +1,7 @@
 package logic;
 
+import board.Field;
+import board.FieldValue;
 import data.*;
 
 import java.util.Map;

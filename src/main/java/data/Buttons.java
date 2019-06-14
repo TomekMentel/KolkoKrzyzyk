@@ -1,5 +1,6 @@
 package data;
 
+import board.Field;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;

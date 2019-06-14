@@ -1,4 +1,6 @@
 package data;
+import board.Field;
+import board.FieldValue;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
